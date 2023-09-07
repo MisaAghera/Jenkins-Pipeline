@@ -70,7 +70,6 @@ pipeline {
 				to: "agheramisa1@gmail.com"
 			}
 		}
-
         }
     }
 }
