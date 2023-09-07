@@ -1,0 +1,75 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building the code using Maven'  
+            }
+		post {
+			success{
+				emailext attachLog: true,
+				subject: "Build status email",
+				body: "Build was successful!",
+			      to: "agheramisa1@gmail.com"
+			}
+		}
+        }
+
+        stage('Unit and Integration Tests') {
+            steps {
+                echo 'Running unit and integration tests using JUnit'
+                
+            }
+        }
+
+        stage('Code Analysis') {
+            steps {
+                echo 'Analyzing the code using FindBugs'
+           
+            }
+        }
+
+        stage('Security Scan') {
+            steps {
+                echo 'Scanning the code for security vulnerabilities using Nessus' 
+            }
+		post {
+			success{
+				emailext attachLog: true,
+				subject: "Security scan status email",
+				body: "Security scan was successful!",
+	                 to: "agheramisa1@gmail.com"
+			}
+		}
+        }
+
+        stage('Deploy to Staging') {
+            steps {
+                echo 'Deploying the application to a staging env AWS EC2'
+               
+            }
+        }
+
+        stage('Integration Tests on Staging') {
+            steps {
+                echo 'Running integration tests on the staging environment Postman'
+               
+            }
+        }
+
+        stage('Deploy to Production') {
+            steps {
+                echo 'Deploying the application to AWS EC2' 
+            }
+		post {
+			success{
+				emailext attachLog: true,
+				subject: "Deployment status email",
+				body: "Deployment was successful!",
+				to: "agheramisa1@gmail.com"
+			}
+		}
+        }
+    }
+}
